@@ -24,5 +24,22 @@ export const updatePost = async(req, res) => {
     
     return res.send('received')        
 }
-export const deletePost = (req, res) => res.send('post deleted')
-export const getPost = (req, res) => res.send('hello world')
+
+export const deletePost = async (req, res) => {
+    const postRemoved = await Post.findByIdAndDelete(req.params.id);
+
+    if(!postRemoved) {
+        return res.sendStatus(404)
+    }
+
+    return res.sendStatus(204)
+}
+
+export const getPost = async (req, res) => {
+    const post = await Post.findById(req.params.id)
+    console.log(post);
+    if(!post) {
+        return res.sendStatus('not found')
+    }
+    return res.json(post);
+}
