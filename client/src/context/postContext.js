@@ -19,7 +19,7 @@ export const PostProvider = ({children}) => {
 
     const createPost = async (post) => {
         const res = await createPostRequest(post)
-        console.log(res)
+        setPosts([...posts, res.data])
     }
 
     useEffect(() => {
