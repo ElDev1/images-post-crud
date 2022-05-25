@@ -21,7 +21,7 @@ export const Homepage = () => {
 
       <div className="grid grid-cols-3 gap-2">
         {posts.map(post => (
-          <PostCard post={post} key={post.id} />
+          <PostCard post={post} key={post._id} />
         ))}
       </div>
     </div>

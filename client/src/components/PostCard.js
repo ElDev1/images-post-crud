@@ -1,17 +1,24 @@
 import toast from 'react-hot-toast'
+import { usePost } from '../context/postContext'
 
 export const PostCard = ({  post  }) => {
 
-    const handleDelete = () => {
+    const {deletePost} = usePost()
+
+    const handleDelete = (id) => {
         toast((t) => (
             <div>
-                <p>Do you want to delete</p>
+                <p className='text-white'>Do you want to delete <strong>{id}</strong> </p>
                 <div>
-                    <button>Delete</button>
-                    <button className='bg-slate-400 hover:bg-slate-500 px-3 pxy-2 text-white rounded-sm mx-2' onClick={() => toast.dismiss(t.id)}>Cancel</button>
+                    <button onClick={() => {deletePost(id); toast.dismiss(t.id)}} className='bg-red-900 hover:bg-red-600 px-3 py-2 text-sm text-white rounded-sm mx-2'>Delete</button>
+                    <button className='bg-slate-400 hover:bg-slate-500 px-3 py-2 text-white rounded-sm mx-2' onClick={() => toast.dismiss(t.id)}>Cancel</button>
                 </div>
             </div>
-        ))
+        ), {
+            style: {
+                background: "#202020"
+            }
+        })
     }
 
   return (
@@ -22,7 +29,7 @@ export const PostCard = ({  post  }) => {
                 <h3>    
                     {post.title}
                 </h3>
-                <button onClick={handleDelete} className="bg-red-900 text-sm px-2 py-1 rounded-sm">
+                <button onClick={() => handleDelete(post._id)} className="bg-red-900 text-sm px-2 py-1 rounded-sm">
                     Delete
                 </button>
             </div>
