@@ -1,20 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {  Formik, Form, Field, ErrorMessage  } from 'formik'
 import { usePost } from '../context/postContext'
-import {  useNavigate } from 'react-router-dom'
+import {  useNavigate, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
+
 
 export const PostForm = () => {
 
-  const { createPost } = usePost()
+  const { createPost, getPosts } = usePost()
   const navigate = useNavigate()
+  const params = useParams()
+  const [post, setPost] = useState({
+    title: '',
+    description: ''
+  })
+
+  useEffect(() => {
+    (async () => {
+      if(params.id) {
+        const post = await getPosts(params.id)
+        setPost(post)
+      }
+    })()
+  },[])
 
   return (
     <div>
-      <Formik initialValues={{
-        title: '',
-        description: ''
-      }}
+      <Formik initialValues={post}
       validationSchema={Yup.object({
         title: Yup.string().required('title is required'),
         description: Yup.string().required('description is required')
