@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 
 export const PostForm = () => {
 
-  const { createPost, getPosts } = usePost()
+  const { createPost, getPosts, updatePost } = usePost()
   const navigate = useNavigate()
   const params = useParams()
   const [post, setPost] = useState({
@@ -39,7 +39,13 @@ export const PostForm = () => {
           description: Yup.string().required('description is required')
         })}
         onSubmit={async (values, actions) => {
-          await createPost(values)
+         
+          if(params.id) {
+            await updatePost(params.id, values)
+          } else {
+            await createPost(values)
+          }
+
           navigate('/')
         }}
         enableReinitialize
