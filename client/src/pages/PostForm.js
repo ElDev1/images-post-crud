@@ -12,7 +12,8 @@ export const PostForm = () => {
   const params = useParams()
   const [post, setPost] = useState({
     title: '',
-    description: ''
+    description: '',
+    image: null,
   })
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export const PostForm = () => {
         setPost(post)
       }
     })()
-  },[])
+  },[params.id])
 
   return (
     <div className='flex items-center justify-center'>
@@ -36,7 +37,8 @@ export const PostForm = () => {
         <Formik initialValues={post}
         validationSchema={Yup.object({
           title: Yup.string().required('title is required'),
-          description: Yup.string().required('description is required')
+          description: Yup.string().required('description is required'),
+          
         })}
         onSubmit={async (values, actions) => {
          
@@ -50,7 +52,7 @@ export const PostForm = () => {
         }}
         enableReinitialize
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, setFieldValue }) => (
             <Form onSubmit={handleSubmit}>
               <label htmlFor='title' className='text-sm block font-bold text-gray-400 '>Title</label>
               <Field name="title" placeholder="title" className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full ' />
@@ -58,6 +60,8 @@ export const PostForm = () => {
               <label htmlFor='description' className='text-sm block font-bold text-gray-400 '>Description</label>
               <Field component="textarea" rows={3} name="description" placeholder="description" className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full '/>
               <ErrorMessage component='p' className='text-red-400 text-sm' name='description' />
+              <label htmlFor='description' className='text-sm block font-bold text-gray-400 '>Description</label>
+              <input type="file" onChange={(e) => setFieldValue('image',e.target.files[0])} name='image' className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full'/>
               <button type="submit" className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded mt-2 text-white focus:outline-none disabled:bg-indigo-400'>Save</button>
             </Form>
           )}  
