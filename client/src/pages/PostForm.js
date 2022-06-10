@@ -47,12 +47,12 @@ export const PostForm = () => {
           } else {
             await createPost(values)
           }
-
+          actions.setSubmitting(false)
           navigate('/')
         }}
         enableReinitialize
         >
-          {({ handleSubmit, setFieldValue }) => (
+          {({ handleSubmit, setFieldValue, isSubmitting }) => (
             <Form onSubmit={handleSubmit}>
               <label htmlFor='title' className='text-sm block font-bold text-gray-400 '>Title</label>
               <Field name="title" placeholder="title" className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full ' />
@@ -62,7 +62,7 @@ export const PostForm = () => {
               <ErrorMessage component='p' className='text-red-400 text-sm' name='description' />
               <label htmlFor='description' className='text-sm block font-bold text-gray-400 '>Description</label>
               <input type="file" onChange={(e) => setFieldValue('image',e.target.files[0])} name='image' className='px-3 py-2 focus:outline-none rounded bg-gray-600 text-white w-full'/>
-              <button type="submit" className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded mt-2 text-white focus:outline-none disabled:bg-indigo-400'>Save</button>
+              <button type="submit" className='bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded mt-2 text-white focus:outline-none disabled:bg-indigo-400' disabled={isSubmitting}>{isSubmitting ? 'Loading': 'Save'}</button>
             </Form>
           )}  
         </Formik>

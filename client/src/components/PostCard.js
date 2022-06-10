@@ -31,12 +31,13 @@ export const PostCard = ({  post  }) => {
                 <h3>    
                     {post.title}
                 </h3>
-                <button onClick={() => handleDelete(post._id)} className="bg-red-900 text-sm px-2 py-1 rounded-sm">
+                <button onClick={(e) => {e.stopPropagation(); handleDelete(post._id)}} className="bg-red-900 hover:bg-red-500 text-sm px-2 py-1 rounded-sm">
                     Delete
                 </button>
             </div>
             <p>{post.description}</p>
        </div>
+       {post.image && <img src={post.image.url} className="w-full h-96 object-cover"/>}
     </div>
   )
 }
